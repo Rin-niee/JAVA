@@ -13,16 +13,16 @@
 public class TestRestange{
   public static void main(String[] args){
     
-    Restange restange1 = new Restange();
-    System.out.println("Площадь прямоугольника с длиной " + restange1.width + " и шириной " + restange1.height + " равна " + restange1.getArea());
-    System.out.println("Периметр прямоугольника с длиной " + restange1.width + " и шириной " + restange1.height + " равен " + restange1.getPerimeter());
+    /*Restange restange1 = new Restange();
+    System.out.println("Площадь прямоугольника с длиной " + restange1.width + " и шириной " + restange1.height + " равна:\n " + restange1.getArea());
+    System.out.println("Периметр прямоугольника с длиной " + restange1.width + " и шириной " + restange1.height + " равен:\n " + restange1.getPerimeter());
+    */
+    Restange restange2 = new Restange(4, 40);
+    System.out.println("Площадь прямоугольника с шириной " + restange2.width + " и длиной " + restange2.height + " равна:\n " + restange2.getArea());
+    System.out.println("Периметр прямоугольника с длиной " + restange2.width + " и длиной " + restange2.height + " равен:\n " + restange2.getPerimeter());
     
-    Restange restange2 = new Restange(2, 4);
-    System.out.println("Площадь прямоугольника с длиной " + restange2.width + " и шириной " + restange2.height + " равна " + restange2.getArea());
-    System.out.println("Периметр прямоугольника с длиной " + restange2.width + " и шириной " + restange2.height + " равен " + restange2.getPerimeter());
-    
-    Restange restange3 = new Restange(15, 30);
-    System.out.println("Площадь прямоугольника с длиной " + restange3.width + " и шириной " + restange3.height + " равна " + restange3.getArea());
-    System.out.println("Периметр прямоугольника с длиной " + restange3.width + " и шириной " + restange3.height + " равен " + restange3.getPerimeter());
+    Restange restange3 = new Restange(3.5, 35.9);
+    System.out.println("Площадь прямоугольника с шириной " + restange3.width + " и длиной " + restange3.height + " равна:\n " + restange3.getArea());
+    System.out.println("Периметр прямоугольника с шириной " + restange3.width + " и длиной " + restange3.height + " равен:\n " + restange3.getPerimeter());
   }
 }
