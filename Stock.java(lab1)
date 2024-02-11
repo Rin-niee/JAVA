@@ -28,7 +28,7 @@ class Stock{
     prevoiusClosingPrice = 0;
     currentPrice = 0;
   }
-  Stock(String symbol, String name, double prevoiusClosingPrice, double currentPrice)
+  Stock(String newSymbol, String newName, double newPrevoiusClosingPrice, double newCurrentPrice)
   {
     symbol = newSymbol;
     name= newName;
@@ -37,6 +37,6 @@ class Stock{
   }
   
   double getChangePercent(){
-    return ((CurrentPrice-PrevoiusClosingPrice)/((CurrentPrice+PrevoiusClosingPrice)/2))*100;
+    return (((currentPrice-prevoiusClosingPrice)/((currentPrice+prevoiusClosingPrice)/2))*100);
   }
 }
