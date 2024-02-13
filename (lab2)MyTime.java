@@ -24,33 +24,36 @@ import java.util.Date;
 
 class MyTime{
   
-  Date hour;
-  Date minute;
-  Date second;
+  int hour;
+  int minute;
+  int second;
   
   MyTime()
   {
     System.currentTimeMillis();
   }
   
-  MyTime(Date newHour, Date newMinute, Date newSecond)
+  MyTime(int newHour, int newMinute, int newSecond)
   {
     hour = newHour;
     minute=newMinute;
     second= newSecond;
   }
   
-  Date getHour(){
-    this.hour=hour;
+  MyTime(int newHour)
+  {
+    hour = newHour;
   }
-  Date getMinute(){
-     this.minute=minute;
+  MyTime(int newMinute)
+  {
+    minute=newMinute;
   }
-  Date getSecond(){
-     this.second=second;
+  MyTime(int newSecond)
+  {
+    second= newSecond;
   }
   
-  setTime(long elapseTime){
+  Date setTime(long elapseTime){
     hour = elapseTime/(3600000);
     minute = ((elapseTime%(3600000))/60);
     second = (((elapseTime%(3600000))%60)/60);
