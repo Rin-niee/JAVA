@@ -27,6 +27,7 @@ class MyTime{
   int hour;
   int minute;
   int second;
+  long elapseTime;
   
   MyTime()
   {
@@ -39,8 +40,12 @@ class MyTime{
     minute=newMinute;
     second= newSecond;
   }
+  MyTime(long newElapseTime)
+  {
+    elapseTime=newElapseTime;
+  }
   
-  MyTime(int newHour)
+  /*MyTime(int newHour)
   {
     hour = newHour;
   }
@@ -51,7 +56,7 @@ class MyTime{
   MyTime(int newSecond)
   {
     second= newSecond;
-  }
+  }*/
   
   Date setTime(long elapseTime){
     hour = elapseTime/(3600000);
