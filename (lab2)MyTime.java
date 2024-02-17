@@ -1,14 +1,14 @@
 /*Создайте класс MyTime для представления времени. Класс MyTime должен содержать:
- Поля данных hour, minute и second, которые представляют время.
- Безаргументный конструктор, который создает объект типа MyTime для текущего
+ Поля данных hour, minute и second, которые представляют время.
+ Безаргументный конструктор, который создает объект типа MyTime для текущего
 времени. (Значения полей данных этого объекта представляют текущее время.)
- Конструктор, который создает объект типа MyTime с указанным временем в
+ Конструктор, который создает объект типа MyTime с указанным временем в
 миллисекундах, прошедших с 00:00, 1 января 1970 г. (Значения полей данных этого
 объекта будут представлять это время.)
- Конструктор, который создает объект типа MyTime с указанными часами,
+ Конструктор, который создает объект типа MyTime с указанными часами,
 минутами и секундами.
- Три getter-метода для полей данных hour, minute и second соответственно.
- Метод с именем setTime(long elapseTime), который присваивает объекту новое
+ Три getter-метода для полей данных hour, minute и second соответственно.
+ Метод с именем setTime(long elapseTime), который присваивает объекту новое
 время с помощью прошедшего времени. Например, если прошедшее время
 равно 555550000 миллисекундам, то hour равно 10, minute равно 19,
 а second равно 10.
@@ -22,45 +22,52 @@
 
 import java.util.Date;
 
-class MyTime{
+public class MyTime{
   
-  int hour;
-  int minute;
-  int second;
-  long elapseTime;
+  public int hour;
+  public int minute;
+  public int second;
   
-  MyTime()
+  public MyTime()
   {
-    System.currentTimeMillis();
+    long currentTimeMillis = System.currentTimeMillis();
+    setTime(currentTimeMillis);
+  }
+  public MyTime(long elapsedTime)
+  {
+    setTime(elapsedTime);
+  }
+  public MyTime(int hour, int minute, int second)
+  {
+    this.hour = hour;
+    this.minute = minute;
+    this.second = second;
   }
   
-  MyTime(int newHour, int newMinute, int newSecond)
+  public int GetHour()
   {
-    hour = newHour;
-    minute=newMinute;
-    second= newSecond;
+    return hour;
   }
-  MyTime(long newElapseTime)
+  public int GetMinute()
   {
-    elapseTime=newElapseTime;
+    return minute;
+  }
+  public int GetSecond()
+  {
+    return second;
   }
   
-  /*MyTime(int newHour)
-  {
-    hour = newHour;
+  public void setTime(long elapsedTime){
+    long totalseconds = elapsedTime/1000;
+    second = (int)(totalseconds % 60);
+    long totalminute = totalseconds/60;
+    minute = (int)(totalminute % 60);
+    hour = (int)(totalminute / 60);
   }
-  MyTime(int newMinute)
-  {
-    minute=newMinute;
-  }
-  MyTime(int newSecond)
-  {
-    second= newSecond;
-  }*/
   
-  Date setTime(long elapseTime){
-    hour = elapseTime/(3600000);
-    minute = ((elapseTime%(3600000))/60);
-    second = (((elapseTime%(3600000))%60)/60);
+  public String toString()
+  {
+    return String.format("%02d:%02d:%02d", hour, minute, second);
   }
+  
 }
