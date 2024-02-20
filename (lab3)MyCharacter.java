@@ -20,7 +20,7 @@ public class MyCharacter
   }
   public int compareTo(MyCharacter anotherCharacter) //сравнение объектов(-1, 0, 1)
   {
-    Character.compareTo(value, anotherCharacter.value)
+    return Character.compare(value, anotherCharacter.value);
   }
   public boolean equals(Object anotherCharacter) //сравнение объектов по булевому значению
   {
