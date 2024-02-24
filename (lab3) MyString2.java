@@ -1,3 +1,12 @@
+/*Java-библиотека предоставляет класс String. Предоставьте собственную
+реализацию следующих методов (назовите новый класс MyString2):
+public MyString2(char[] chars);
+public MyString2 substring(int begin);
+public MyString2 substring(int begin, int end);
+public boolean equals(Object obj);
+public int compareTo(MyString2 obj);
+public char[] toChars();
+public static MyString2 valueOf(boolean b);*/
 public class MyString2
 {
   private char[] chars;
