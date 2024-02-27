@@ -1,29 +1,17 @@
 public class TestMyCharacter {
     public static void main(String[] args) {
-        // Создание объекта MyCharacter
-        MyCharacter myCharacter = new MyCharacter('a');
-
-        // Вывод значения символа
-        System.out.println("Значение символа: " + myCharacter.charValue());
-
-        // Сравнение двух объектов MyCharacter
-        MyCharacter myCharacter2 = new MyCharacter('b');
-        System.out.println("Сравнение двух символов: " + myCharacter.compareTo(myCharacter2));
-
-        // Сравнение объекта MyCharacter и символа
-        char ch = 'c';
-        System.out.println("Сравнение символа и объекта MyCharacter: " + myCharacter.compareTo(ch));
-
-        // Проверка, является ли символ цифрой
-        System.out.println("Проверка, является ли символ цифрой: " + myCharacter.isDigit());
-
-        // Проверка, является ли символ цифрой (статический метод)
-        System.out.println("Проверка, является ли символ цифрой (статический метод): " + MyCharacter.isDigit(myCharacter));
-
-        // Проверка, является ли символ буквой (статический метод)
-        System.out.println("Проверка, является ли символ буквой (статический метод): " + MyCharacter.isLetter(myCharacter));
-
-        // Проверка, является ли символ буквой или цифрой (статический метод)
-        System.out.println("Проверка, является ли символ буквой или цифрой (статический метод): " + MyCharacter.isLetterOrDigit(myCharacter));
+        MyCharacter myCharacter = new MyCharacter('m');
+        System.out.println("Значение: " + myCharacter.charValue());
+        
+        MyCharacter myCharacter2 = new MyCharacter('n');
+        System.out.println("Сравнение символов одного класса: " + myCharacter.compareTo(myCharacter2));
+        
+        char ch = 'k';
+        System.out.println("Сравнение объектов: " + myCharacter.equals(ch));
+        
+        System.out.println("Проверка на число: " + myCharacter.isDigit());
+        System.out.println("Проверка на число(статически): " + MyCharacter.isDigit(myCharacter));
+        System.out.println("Проверка на символ(статически): " + MyCharacter.isLetter(myCharacter));
+        System.out.println("Проверка на символ или число (статически): " + MyCharacter.isLetterOrDigit(myCharacter));
     }
 }
