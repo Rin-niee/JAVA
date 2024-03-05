@@ -30,13 +30,9 @@ public class SolidOfRevolution extends Cylinder
     this.h = h;
   }
   
-  public double getArea()
+  public double getVolume()
   {
-    return 2*math.PI* (r**2)+ 2*math.PI*h;
-  }
-  public double getPerimeter()
-  {
-    return 2*(2*math.PI*r+h);
+    return math.PI * (r**2)* h;
   }
   
 }
