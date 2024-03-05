@@ -43,8 +43,8 @@ public class SolidOfRevolution extends Pyramid
     this.h = h;
   }
   
-  public double getArea()
+  public double getVolume()
   {
-    return a*a+2*a*(b*b-((a*a)/4))**(1/2);
+    return (1/3)*a*b*h;
   }
 }
