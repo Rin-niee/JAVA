@@ -1,4 +1,4 @@
-public class SolidOfRevolution extends Ball
+public class Ball extends Shape
 {
   private int r;
   
