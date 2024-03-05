@@ -1,4 +1,4 @@
-public class SolidOfRevolution extends Cylinder
+public class Cylinder extends Shape
 {
   private int r;
   private int h;
