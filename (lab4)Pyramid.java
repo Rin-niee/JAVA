@@ -1,4 +1,4 @@
-public class SolidOfRevolution extends Pyramid
+public class Pyramid extends Shape
 {
   private int a;
   private int b;
