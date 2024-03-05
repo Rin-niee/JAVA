@@ -19,8 +19,8 @@ public class SolidOfRevolution extends Ball
     this.r = r;
   }
   
-  public double getArea()
+  public double getVolume()
   {
-    return 4*math.PI* (r**2;
+    return (4/3)*math.PI*r**(3);
   }
 }
