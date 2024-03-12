@@ -1,50 +1,56 @@
 public class Pyramid extends Shape
 {
-  private int a;
-  private int b;
-  private int h;
+  private double a;
+  private double b;
+  private double h;
   
   public Pyramid(){}
   
-  public Pyramid(int a, int b, int h)
+  public Pyramid(double a, double b, double h)
   {
     this.a = a;
     this.b = b;
     this.h = h;
   }
   
-  public int getWidth()
+  public double getWidth()
   {
     return a;
   }
   
-  public int setWidth(int a)
+  public double setWidth(double a)
   {
     this.a = a;
   }
   
-  public int getLength()
+  public double getLength()
   {
     return b;
   }
   
-  public int setLength(int b)
+  public double setLength(double b)
   {
     this.b = b;
   }
   
-  public int getHeight()
+  public double getHeight()
   {
     return h;
   }
   
-  public int setHeight(int r)
+  public double setHeight(double r)
   {
     this.h = h;
   }
   
   public double getVolume()
   {
-    return (1/3)*a*b*h;
+    double Volume; 
+    Volume = (1/3)*a*b*h
+    return Volume;
+  }
+  public String toString()
+  {
+    return "Cylinder weigth: " + a + "Cylinder hight: " + b +  "Cylinder leight: " + c + "/n";
   }
 }
