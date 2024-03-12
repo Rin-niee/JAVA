@@ -1,38 +1,35 @@
-public class Cylinder extends Shape
+public class Cylinder extends SolidOfRevolution
 {
-  private int r;
-  private int h;
+  private double r;
+  private double h;
   
   public Cylinder(){}
   
-  public Cylinder(int r, int h)
+  public Cylinder(double r, double h)
   {
     this.r = r;
     this.h = h;
   }
   
-  public int getRadius()
+  public double getRadius()
   {
     return r;
   }
   
-  public int setRadius(int r)
-  {
-    this.r = r;
-  }
-  public int getHeight()
+  public double getHeight()
   {
     return h;
   }
   
-  public int setHeight(int r)
-  {
-    this.h = h;
-  }
-  
   public double getVolume()
   {
-    return math.PI * (r**2)* h;
+    double Volume;
+    Volume = Math.PI * (r*r)* h;
+    return Volume;
+  }
+  public String toString()
+  {
+    return "Cylinder radius: " + r + "Cylinder hight: " + h + "/n";
   }
   
 }
