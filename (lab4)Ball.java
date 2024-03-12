@@ -1,26 +1,30 @@
-public class Ball extends Shape
+public class Ball extends SolidOfRevolution
 {
-  private int r;
+  private double r;
   
   public Ball(){}
   
-  public Ball(int r)
+  public Ball(double r)
   {
     this.r = r;
   }
   
-  public int getRadius()
+  public double getRadius()
   {
     return r;
   }
   
-  public int setRadius(int r)
-  {
-    this.r = r;
-  }
-  
   public double getVolume()
   {
-    return (4/3)*math.PI*r**(3);
+    double Volume;
+    Volume = (4/3)*Math.PI*r*r*r;
+    return Volume;
+  }
+  
+  
+  
+  public String toString()
+  {
+    return "Ball radius: " + r + "/n";
   }
 }
