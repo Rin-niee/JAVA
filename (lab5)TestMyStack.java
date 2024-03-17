@@ -1,5 +1,7 @@
-public class TestMySytack{
-    public static void main(String[] args){
+public class TestMyStack
+{
+    public static void main(String[] args)
+    {
         MyStack stack1 = new MyStack();
         stack1.push(1);
         stack1.push(2);
