@@ -5,12 +5,13 @@ public class TestGenericStack
         // Создаем экземпляр GenericStack для хранения целых чисел
         GenericStack<Integer> stack = new GenericStack<>();
 
-        // Добавляем элементы в стек
         stack.push(1);
         stack.push(2);
+        stack.push(43);
+        stack.push(90);
+        stack.push(61);
         stack.push(3);
 
-        // Просматриваем верхний элемент стека
         System.out.println("Peek: " + stack.peek());
 
         // Удаляем верхний элемент стека и выводим его
