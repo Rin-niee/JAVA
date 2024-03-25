@@ -7,7 +7,8 @@ public class GenericStack<E>
     private E[] arr;
     private int size;
 
-    public GenericStack() {
+    public GenericStack()
+    {
         arr = (E[]) new Object[DEFAULT_CAPACITY];
         size = 0;
     }
@@ -16,7 +17,7 @@ public class GenericStack<E>
     {
         return size;
     }
-
+  // Верхний элемент стека
     public E peek()
     {
         if (isEmpty())
@@ -25,7 +26,7 @@ public class GenericStack<E>
         }
         return arr[size - 1];
     }
-
+    // Элементы в стек
     public void push(E o)
     {
         if (size == arr.length)
@@ -34,7 +35,7 @@ public class GenericStack<E>
         }
         arr[size++] = o;
     }
-
+    //удалить элемент
     public E pop()
     {
         if (isEmpty())
