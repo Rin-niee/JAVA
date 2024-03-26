@@ -14,7 +14,10 @@
 
 public class CoolClass<E>
 {
-  
+  public CoolClass()
+  {
+    CC = new int[10];
+  }
   public void push(E o)
    {
       list.add(o);
