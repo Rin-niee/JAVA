@@ -12,87 +12,78 @@
 ~ поиска элементов по значению. Метод генерирует исключение, если
 контейнер содержит больше одного искомого элемента.*/
 
-import java.util.Arrays;
-
-public class IntContainer {
-    private int[] data;
-    private int size;
+public class CoolClass {
     private static final int MAX_SIZE = 10;
+    private int[] array;
+    private int size;
 
-    public IntContainer() {
-        this.data = new int[MAX_SIZE];
-        this.size = 0;
+    public CoolClass() {
+        array = new int[MAX_SIZE];
+        size = 0;
     }
 
-    public void add(int value) throws ContainerFullException {
+    public void add(int num) throws ContainerFullException {
         if (size == MAX_SIZE) {
-            throw new ContainerFullException("Container is full");
+            throw new ContainerFullException("Container is full. Cannot add more elements.");
         }
-        data[size++] = value;
+        array[size++] = num;
     }
 
     public int remove() throws ContainerEmptyException {
         if (size == 0) {
-            throw new ContainerEmptyException("Container is empty");
+            throw new ContainerEmptyException("Container is empty. Cannot remove element.");
         }
-        return data[--size];
+        return array[--size];
     }
 
-    public void sort() throws ContainerEmptyException, ContainerAllEqualException {
+    public void sort() throws ContainerEmptyException, AllElementsAreEqualException {
         if (size == 0) {
-            throw new ContainerEmptyException("Container is empty");
+            throw new ContainerEmptyException("Container is empty. Cannot sort elements.");
         }
-        if (isAllEqual()) {
-            throw new ContainerAllEqualException("All elements are equal");
-        }
-        Arrays.sort(data, 0, size);
-    }
 
-    public int find(int value) throws ContainerMultipleValuesException {
-        int count = 0;
-        int index = -1;
-        for (int i = 0; i < size; i++) {
-            if (data[i] == value) {
-                count++;
-                index = i;
-            }
-        }
-        if (count > 1) {
-            throw new ContainerMultipleValuesException("Multiple values found");
-        }
-        return index;
-    }
-
-    private boolean isAllEqual() {
+        boolean allEqual = true;
         for (int i = 1; i < size; i++) {
-            if (data[i] != data[i - 1]) {
-                return false;
+            if (array[i] != array[0]) {
+                allEqual = false;
+                break;
             }
         }
-        return true;
+
+        if (allEqual) {
+            throw new AllElementsAreEqualException("All elements in the container are equal. Cannot sort.");
+        }
+
+        // реализация метода сортировки элементов
     }
 
-    public static class ContainerFullException extends RuntimeException {
-        public ContainerFullException(String message) {
-            super(message);
-        }
-    }
+    public int search(int num) throws MultipleElementsFoundException {
+        int count = 0;
 
-    public static class ContainerEmptyException extends RuntimeException {
-        public ContainerEmptyException(String message) {
-            super(message);
+        for (int i = 0; i < size; i++) {
+            if (array[i] == num) {
+                count++;
+                if (count > 1) {
+                    throw new MultipleElementsFoundException("Multiple elements found in the container with value: " + num);
+                }
+            }
         }
-    }
 
-    public static class ContainerAllEqualException extends RuntimeException {
-        public ContainerAllEqualException(String message) {
-            super(message);
-        }
+        return count;
     }
-
-    public static class ContainerMultipleValuesException extends RuntimeException {
-        public ContainerMultipleValuesException(String message) {
-            super(message);
+    
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < size; i++)
+        {
+            sb.append(array[i]);
+            if (i < size - 1)
+            {
+                sb.append(", ");
+            }
         }
+        sb.append("]");
+        return sb.toString();
     }
 }
