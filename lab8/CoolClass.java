@@ -12,23 +12,87 @@
 ~ поиска элементов по значению. Метод генерирует исключение, если
 контейнер содержит больше одного искомого элемента.*/
 
-public class CoolClass<E>
-{
-  public CoolClass()
-  {
-    CC = new int[10];
-  }
-  public void push(E o)
-   {
-      list.add(o);
-   }
-   public E pop()
-   {
-     E o = list.get(getSize() - 1);
-     list.remove(getSize() - 1);
-     return o;
-   }
-  @override
-  public String toString(){
-    return "Array" + array.toString;
+import java.util.Arrays;
+
+public class IntContainer {
+    private int[] data;
+    private int size;
+    private static final int MAX_SIZE = 10;
+
+    public IntContainer() {
+        this.data = new int[MAX_SIZE];
+        this.size = 0;
+    }
+
+    public void add(int value) throws ContainerFullException {
+        if (size == MAX_SIZE) {
+            throw new ContainerFullException("Container is full");
+        }
+        data[size++] = value;
+    }
+
+    public int remove() throws ContainerEmptyException {
+        if (size == 0) {
+            throw new ContainerEmptyException("Container is empty");
+        }
+        return data[--size];
+    }
+
+    public void sort() throws ContainerEmptyException, ContainerAllEqualException {
+        if (size == 0) {
+            throw new ContainerEmptyException("Container is empty");
+        }
+        if (isAllEqual()) {
+            throw new ContainerAllEqualException("All elements are equal");
+        }
+        Arrays.sort(data, 0, size);
+    }
+
+    public int find(int value) throws ContainerMultipleValuesException {
+        int count = 0;
+        int index = -1;
+        for (int i = 0; i < size; i++) {
+            if (data[i] == value) {
+                count++;
+                index = i;
+            }
+        }
+        if (count > 1) {
+            throw new ContainerMultipleValuesException("Multiple values found");
+        }
+        return index;
+    }
+
+    private boolean isAllEqual() {
+        for (int i = 1; i < size; i++) {
+            if (data[i] != data[i - 1]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static class ContainerFullException extends RuntimeException {
+        public ContainerFullException(String message) {
+            super(message);
+        }
+    }
+
+    public static class ContainerEmptyException extends RuntimeException {
+        public ContainerEmptyException(String message) {
+            super(message);
+        }
+    }
+
+    public static class ContainerAllEqualException extends RuntimeException {
+        public ContainerAllEqualException(String message) {
+            super(message);
+        }
+    }
+
+    public static class ContainerMultipleValuesException extends RuntimeException {
+        public ContainerMultipleValuesException(String message) {
+            super(message);
+        }
+    }
 }
