@@ -35,14 +35,14 @@ public class TestCoolClass
         {
             coolClass.sort();
         }
-        catch (AllElementsAreEqualException e)
+        catch (ContainerEmptyException | AllElementsAreEqualException e)
         {
           System.out.println("Одинаковые элементы");
         }
         try {
           coolClass.search(1);
         } catch (MultipleElementsFoundException e){
-          System.out.println("что-то не так с элементами");
+          System.out.println("Есть несколько таких элементов");
         }
         // Печать оставшихся элементов
         System.out.println("Оставшиеся элементы: " + coolClass);
