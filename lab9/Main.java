@@ -7,41 +7,52 @@
 (используйте любую сортировку). Все операции над списком должны синхронизоваться
 при помощи synchronized.*/
 
-```java
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class Main {
+public class Main
+{
     private static final List<String> stringList = new ArrayList<>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         Thread thread = new Thread(new SortThread());
         thread.start();
 
         Scanner scanner = new Scanner(System.in);
 
-        while(true) {
-            System.out.println("Введите строку (длиннее 80 символов автоматически разрезается):");
+        while(true)
+        {
+            System.out.println("Введите строку:");
             String input = scanner.nextLine();
 
-            if (input.isEmpty()) {
-                synchronized (stringList) {
-                    System.out.println("Текущее состояние списка:");
-                    for (String str : stringList) {
+            if (input.isEmpty())
+            {
+                synchronized (stringList)
+                {
+                    System.out.println("Список сейчас:");
+                    for (String str : stringList)
+                    {
                         System.out.println(str);
                     }
                     break;
                 }
             }
-
-            synchronized (stringList) {
-                if (input.length() > 80) {
-                    for (int i = 0; i < input.length(); i += 80) {
+            //нарезка строки больше 80 символов
+            synchronized (stringList)
+            {
+                if (input.length() > 80)
+                {
+                    for (int i = 0; i < input.length(); i += 80)
+                    {
                         stringList.add(input.substring(i, Math.min(i + 80, input.length())));
                     }
-                } else {
+                }
+                else
+                {
                     stringList.add(input);
                 }
             }
@@ -50,21 +61,23 @@ public class Main {
         scanner.close();
     }
 
-    static class SortThread implements Runnable {
-        @Override
-        public void run() {
-            while (true) {
-                try {
+    static class SortThread implements Runnable
+    {
+        public void run()
+        {
+            while (true)
+            {
+                try
+                {
                     Thread.sleep(5000);
-                    synchronized (stringList) {
+                    synchronized (stringList)
+                    {
                         Collections.sort(stringList);
                     }
-                } catch (InterruptedException e) {
+                } catch (InterruptedException e){
                     e.printStackTrace();
                 }
             }
         }
     }
 }
-```
-
