@@ -7,65 +7,64 @@
 (используйте любую сортировку). Все операции над списком должны синхронизоваться
 при помощи synchronized.*/
 
+```java
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
-public class StringSorter {
-
-    private static final Object lock = new Object();
-    private static ArrayList<String> strings = new ArrayList<>();
+public class Main {
+    private static final List<String> stringList = new ArrayList<>();
 
     public static void main(String[] args) {
+        Thread thread = new Thread(new SortThread());
+        thread.start();
+
         Scanner scanner = new Scanner(System.in);
 
-        // Поток для считывания строк с консоли
-        Thread inputThread = new Thread(() -> {
-            while (true) {
-                String line = scanner.nextLine();
-                if (line.isEmpty()) {
+        while(true) {
+            System.out.println("Введите строку (длиннее 80 символов автоматически разрезается):");
+            String input = scanner.nextLine();
+
+            if (input.isEmpty()) {
+                synchronized (stringList) {
+                    System.out.println("Текущее состояние списка:");
+                    for (String str : stringList) {
+                        System.out.println(str);
+                    }
                     break;
                 }
+            }
 
-                // Разрезаем строки длиннее 80 символов на несколько строк
-                if (line.length() > 80) {
-                    int startIndex = 0;
-                    while (startIndex < line.length()) {
-                        int endIndex = Math.min(startIndex + 80, line.length());
-                        synchronized (lock) {
-                            strings.add(line.substring(startIndex, endIndex));
-                        }
-                        startIndex = endIndex;
+            synchronized (stringList) {
+                if (input.length() > 80) {
+                    for (int i = 0; i < input.length(); i += 80) {
+                        stringList.add(input.substring(i, Math.min(i + 80, input.length())));
                     }
                 } else {
-                    synchronized (lock) {
-                        strings.add(line);
-                    }
+                    stringList.add(input);
                 }
             }
-        });
-        inputThread.start();
+        }
 
-        // Поток для сортировки строк
-        Thread sortingThread = new Thread(() -> {
+        scanner.close();
+    }
+
+    static class SortThread implements Runnable {
+        @Override
+        public void run() {
             while (true) {
                 try {
                     Thread.sleep(5000);
+                    synchronized (stringList) {
+                        Collections.sort(stringList);
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
-                synchronized (lock) {
-                    if (!strings.isEmpty()) {
-                        Collections.sort(strings);
-                        System.out.println("Текущее состояние списка:");
-                        for (String string : strings) {
-                            System.out.println(string);
-                        }
-                    }
-                }
             }
-        });
-        sortingThread.start();
+        }
     }
 }
+```
+
