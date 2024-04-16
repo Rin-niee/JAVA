@@ -12,73 +12,73 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
-public class MedicalOffice {
+public class MedicalOffice
+{
+   static class Patient
+   {
+        String name;
+        int serviceTime;
 
-    public static void main(String[] args) {
+        public Patient(String name, int serviceTime)
+        {
+            this.name = name;
+            this.serviceTime = serviceTime;
+        }
+    }
+
+    static class Nurse extends Thread
+    {
+        String name;
+        Queue<Patient> patientsQueue;
+
+        public Nurse(String name, Queue<Patient> patientsQueue)
+        {
+            this.name = name;
+            this.patientsQueue = patientsQueue;
+        }
+
+        public void run()
+        {
+            while (true)
+            {
+                Patient patient;
+                synchronized (patientsQueue)
+                {
+                    patient = patientsQueue.poll(); //удаление из очереди
+                }
+            if (patient == null) break;
+                try {
+                    System.out.println(name + " served patient " + patient.name + " for " + patient.serviceTime + " time.");
+                    Thread.sleep(patient.serviceTime * 500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public static void main(String[] args)
+    {
         Queue<Patient> patientsQueue = new LinkedList<>();
-        for (int i = 1; i <= 10; i++) {
-            patientsQueue.add(new Patient("Patient" + i, new Random().nextInt(5) + 1));
+        for (int i = 1; i <= 10; i++)
+        {
+            patientsQueue.add(new Patient("Patient" + i, new Random().nextInt(10) + 1));
         }
 
         Nurse[] nurses = new Nurse[3];
-        for (int i = 0; i < nurses.length; i++) {
+        for (int i = 0; i < nurses.length; i++)
+        {
             nurses[i] = new Nurse("Nurse" + (i + 1), patientsQueue);
             nurses[i].start();
         }
 
-        for (Nurse nurse : nurses) {
+        for (Nurse nurse : nurses)
+        {
             try {
                 nurse.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-
         System.out.println("All patients have been served.");
-    }
-
-    static class Patient {
-        String name;
-        int serviceTime;
-
-        public Patient(String name, int serviceTime) {
-            this.name = name;
-            this.serviceTime = serviceTime;
-        }
-    }
-
-    static class Nurse extends Thread {
-        String name;
-        Queue<Patient> patientsQueue;
-
-        public Nurse(String name, Queue<Patient> patientsQueue) {
-            this.name = name;
-            this.patientsQueue = patientsQueue;
-        }
-
-        @Override
-        public void run() {
-            while (true) {
-                Patient patient;
-                synchronized (patientsQueue) {
-                    while (patientsQueue.isEmpty()) {
-                        try {
-                            patientsQueue.wait();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    patient = patientsQueue.poll();
-                }
-                if (patient == null) break;
-
-                try {
-                    System.out.println(name + " served patient " + patient.name + " for " + patient.serviceTime + " units of time.");
-                    Thread.sleep(patient.serviceTime * 1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 }
