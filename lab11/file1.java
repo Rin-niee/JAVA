@@ -16,21 +16,20 @@
 УКАЗАНИЕ. Внимательно ознакомьтесь со списком литературы в конце файла. Обратите
 внимание, что в названиях журналов могут быть точки, а ссылки на литературу могут быть в
 том числе и английскими.*/
-public static boolean isReference(String text) {
-    Pattern pattern = Pattern.compile("^(\\d+)\\. (.*), (.*)\\. (.*)\\. (\\d{4});(\\d\\(\\d\\)):(\\d+)-(\\d+)$");
-    Matcher matcher = pattern.matcher(text);
-    return matcher.matches();
-}
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class ReferenceFinder {
 
-    public static void main(String[] args) {
-        try {
+public class ReferenceFinder
+{
+    public static void main(String[] args)
+    {
+    try {
             // Считать текст из файла
-            File file = new File("text.txt");
+            File file = new File("fvp.txt");
             Scanner scanner = new Scanner(file);
             String text = scanner.useDelimiter("\\A").next();
             scanner.close();
@@ -38,11 +37,13 @@ public class ReferenceFinder {
             // Найти все ссылки на литературу
             Pattern pattern = Pattern.compile("^(\\d+)\\. (.*), (.*)\\. (.*)\\. (\\d{4});(\\d\\(\\d\\)):(\\d+)-(\\d+)$");
             Matcher matcher = pattern.matcher(text);
-            while (matcher.find()) {
+            while (matcher.find())
+            {
                 // Вывести ссылку на консоль
                 System.out.println(matcher.group());
             }
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e)
+        {
             System.out.println("Файл не найден");
         }
     }
