@@ -48,3 +48,42 @@ public class ReferenceFinder
         }
     }
 }
+
+
+Регулярное выражение для шаблона ссылки на литературу:
+```java
+String regex = "\\d+\\.\\s.+\\.\\s.+\\.\\s\\d{4};\\d+\\(\\d+\\):\\d+-\\d+\\.";
+```
+
+Функция для проверки, является ли строка ссылкой на литературу:
+```java
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
+public class Main {
+
+    public static void main(String[] args) {
+        String testString = "1. Бондарев А.Н., Киричек Р.В. Обзор беспилотных летательных аппаратов общего\n" +
+                "пользования и регулирования воздушного движения БПЛА в разных странах. Информационные\n" +
+                "технологии и телекоммуникации. 2016;4(4):13–23.";
+
+        System.out.println(isLiteratureReference(testString));
+
+        // Пример чтения файла и выделения литературных источников
+        // File file = new File("sample.txt");
+        // List<String> literatureReferences = extractLiteratureReferencesFromFile(file);
+        // for (String reference : literatureReferences) {
+        //    System.out.println(reference);
+        // }
+    }
+
+    public static boolean isLiteratureReference(String input) {
+        String regex = "\\d+\\.\\s.+\\.\\s.+\\.\\s\\d{4};\\d+\\(\\d+\\):\\d+-\\d+\\.";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        return matcher.matches();
+    }
+}
+```
+
+Для нахождения литературных источников в тексте из файла, вам необходимо добавить соответствующий код для чтения файла и обработки его содержимого с помощью регулярного выражения. В примере представлены основные методы для проверки строки на соответствие шаблону ссылки на литературу.
