@@ -16,6 +16,7 @@
 УКАЗАНИЕ. Внимательно ознакомьтесь со списком литературы в конце файла. Обратите
 внимание, что в названиях журналов могут быть точки, а ссылки на литературу могут быть в
 том числе и английскими.*/
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -23,113 +24,39 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class ReferenceFinder
-{
-    public static void main(String[] args)
+public class Main{
+    public static boolean isReference(String text)
     {
-    try {
+        Pattern pattern = Pattern.compile("\\\\d+\\\\.\\\\s.+\\\\.\\\\s.+\\\\.\\\\s\\\\d{4};\\\\d+\\\\(\\\\d+\\\\):\\\\d+-\\\\d+\\\\.");
+        Matcher matcher = pattern.matcher(text);
+        return matcher.matches();
+    }
+    
+    public static void main(String[] args) {
+        String testString = "1. Бондарев А.Н., Киричек Р.В. Обзор беспилотных летательных аппаратов общего пользования и регулирования воздушного движения БПЛА в разных странах. Информационные технологии и телекоммуникации. 2016;4(4):13–23.";
+
+        System.out.println(isReference(testString));
+
+        try {
             // Считать текст из файла
-            File file = new File("fvp.txt");
+            File file = new File("File.txt");
             Scanner scanner = new Scanner(file);
-            String text = scanner.useDelimiter("\\A").next();
+            StringBuilder text = new StringBuilder();
+            while (scanner.hasNextLine())
+            {
+                text.append(scanner.nextLine()).append("\n");
+            }
             scanner.close();
 
             // Найти все ссылки на литературу
-            Pattern pattern = Pattern.compile("^(\\d+)\\. (.*), (.*)\\. (.*)\\. (\\d{4});(\\d\\(\\d\\)):(\\d+)-(\\d+)$");
+            Pattern pattern = Pattern.compile("\\d+\\.\\s.+\\.\\s.+\\.\\s\\d{4};\\d+\\(\\d+\\):\\d+-\\d+\\.");
             Matcher matcher = pattern.matcher(text);
-            while (matcher.find())
-            {
+            while (matcher.find()) {
                 // Вывести ссылку на консоль
                 System.out.println(matcher.group());
             }
-        } catch (FileNotFoundException e)
-        {
-            System.out.println("Файл не найден");
+        } catch (FileNotFoundException e) {
+            System.out.println("Not found file.");
         }
     }
 }
-
-
-Регулярное выражение для шаблона ссылки на литературу:
-```java
-String regex = "\\d+\\.\\s.+\\.\\s.+\\.\\s\\d{4};\\d+\\(\\d+\\):\\d+-\\d+\\.";
-```
-
-Функция для проверки, является ли строка ссылкой на литературу:
-```java
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-
-public class Main {
-
-    public static void main(String[] args) {
-        String testString = "1. Бондарев А.Н., Киричек Р.В. Обзор беспилотных летательных аппаратов общего\n" +
-                "пользования и регулирования воздушного движения БПЛА в разных странах. Информационные\n" +
-                "технологии и телекоммуникации. 2016;4(4):13–23.";
-
-        System.out.println(isLiteratureReference(testString));
-
-        // Пример чтения файла и выделения литературных источников
-        // File file = new File("sample.txt");
-        // List<String> literatureReferences = extractLiteratureReferencesFromFile(file);
-        // for (String reference : literatureReferences) {
-        //    System.out.println(reference);
-        // }
-    }
-
-    public static boolean isLiteratureReference(String input) {
-        String regex = "\\d+\\.\\s.+\\.\\s.+\\.\\s\\d{4};\\d+\\(\\d+\\):\\d+-\\d+\\.";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input);
-        return matcher.matches();
-    }
-}
-```
-
-Для нахождения литературных источников в тексте из файла, вам необходимо добавить соответствующий код для чтения файла и обработки его содержимого с помощью регулярного выражения. В примере представлены основные методы для проверки строки на соответствие шаблону ссылки на литературу.
-```java
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-public class Main {
-
-    public static void main(String[] args) {
-        String filePath = "sample.txt";
-        List<String> literatureReferences = extractLiteratureReferencesFromFile(filePath);
-        for (String reference : literatureReferences) {
-            System.out.println(reference);
-        }
-    }
-
-    public static List<String> extractLiteratureReferencesFromFile(String filePath) {
-        List<String> literatureReferences = new ArrayList<>();
-        String line;
-        StringBuilder text = new StringBuilder();
-
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
-            while ((line = bufferedReader.readLine()) != null) {
-                text.append(line).append("\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String regex = "\\d+\\.\\s.+\\.\\s.+\\.\\s\\d{4};\\d+\\(\\d+\\):\\d+-\\d+\\.";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(text);
-
-        while (matcher.find()) {
-            literatureReferences.add(matcher.group());
-        }
-
-        return literatureReferences;
-    }
-}
-```
-
-В этом примере представлена функция `extractLiteratureReferencesFromFile`, которая читает текст из файла, ищет все литературные источники в соответствии с заданным регулярным выражением и возвращает список найденных источников. В функции `main` файл с исходным текстом передается в качестве параметра, и затем выведенные литературные источники печатаются на консоль.
