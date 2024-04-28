@@ -87,3 +87,49 @@ public class Main {
 ```
 
 Для нахождения литературных источников в тексте из файла, вам необходимо добавить соответствующий код для чтения файла и обработки его содержимого с помощью регулярного выражения. В примере представлены основные методы для проверки строки на соответствие шаблону ссылки на литературу.
+```java
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Main {
+
+    public static void main(String[] args) {
+        String filePath = "sample.txt";
+        List<String> literatureReferences = extractLiteratureReferencesFromFile(filePath);
+        for (String reference : literatureReferences) {
+            System.out.println(reference);
+        }
+    }
+
+    public static List<String> extractLiteratureReferencesFromFile(String filePath) {
+        List<String> literatureReferences = new ArrayList<>();
+        String line;
+        StringBuilder text = new StringBuilder();
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
+            while ((line = bufferedReader.readLine()) != null) {
+                text.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String regex = "\\d+\\.\\s.+\\.\\s.+\\.\\s\\d{4};\\d+\\(\\d+\\):\\d+-\\d+\\.";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(text);
+
+        while (matcher.find()) {
+            literatureReferences.add(matcher.group());
+        }
+
+        return literatureReferences;
+    }
+}
+```
+
+В этом примере представлена функция `extractLiteratureReferencesFromFile`, которая читает текст из файла, ищет все литературные источники в соответствии с заданным регулярным выражением и возвращает список найденных источников. В функции `main` файл с исходным текстом передается в качестве параметра, и затем выведенные литературные источники печатаются на консоль.
