@@ -1,30 +1,9 @@
-(venv) vboxuser@Ubuntu:~/SuperWebProgramming/car$ python manage.py runserver
-Watching for file changes with StatReloader
-Performing system checks...
-
-Exception in thread django-main-thread:
-Traceback (most recent call last):
-  File "/usr/lib/python3.12/threading.py", line 1073, in _bootstrap_inner
-    self.run()
-  File "/usr/lib/python3.12/threading.py", line 1010, in run
-    self._target(*self._args, **self._kwargs)
-  File "/home/vboxuser/SuperWebProgramming/venv/lib/python3.12/site-packages/django/utils/autoreload.py", line 64, in wrapper
-    fn(*args, **kwargs)
-  File "/home/vboxuser/SuperWebProgramming/venv/lib/python3.12/site-packages/django/core/management/commands/runserver.py", line 134, in inner_run
-    self.check(display_num_errors=True)
-  File "/home/vboxuser/SuperWebProgramming/venv/lib/python3.12/site-packages/django/core/management/base.py", line 486, in check
-    all_issues = checks.run_checks(
-                 ^^^^^^^^^^^^^^^^^^
-  File "/home/vboxuser/SuperWebProgramming/venv/lib/python3.12/site-packages/django/core/checks/registry.py", line 88, in run_checks
-    new_errors = check(app_configs=app_configs, databases=databases)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/vboxuser/SuperWebProgramming/venv/lib/python3.12/site-packages/django/core/checks/caches.py", line 65, in check_file_based_cache_is_absolute
-    cache = caches[alias]
-            ~~~~~~^^^^^^^
-  File "/home/vboxuser/SuperWebProgramming/venv/lib/python3.12/site-packages/django/utils/connection.py", line 62, in __getitem__
-    conn = self.create_connection(alias)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/vboxuser/SuperWebProgramming/venv/lib/python3.12/site-packages/django/core/cache/__init__.py", line 44, in create_connection
-    params = self.settings[alias].copy()
-             ^^^^^^^^^^^^^^^^^^^^^^^^^
-AttributeError: 'str' object has no attribute 'copy'
+<ScheduleEntry: fetch-vk-clips-every-24-hours carapp.tasks.VK_clips() <crontab: 0 0 * * * (m/h/dM/MY/d)>
+[2025-01-27 03:46:10,499: DEBUG/MainProcess] beat: Ticking with max interval->5.00 minutes
+[2025-01-27 03:46:10,500: DEBUG/MainProcess] beat: Waking up in 5.00 minutes.
+[2025-01-27 03:51:10,502: DEBUG/MainProcess] beat: Synchronizing schedule...
+[2025-01-27 03:51:10,536: DEBUG/MainProcess] beat: Waking up in 5.00 minutes.
+[2025-01-27 03:56:10,540: DEBUG/MainProcess] beat: Synchronizing schedule...
+[2025-01-27 03:56:10,573: DEBUG/MainProcess] beat: Waking up in 5.00 minutes.
+[2025-01-27 04:01:10,577: DEBUG/MainProcess] beat: Synchronizing schedule...
+[2025-01-27 04:01:10,593: DEBUG/MainProcess] beat: Waking up in 5.00 minutes.
