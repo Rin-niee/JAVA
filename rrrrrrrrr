@@ -16,3 +16,7 @@ server {
 
     listen 80;
 }
+
+
+Job for nginx.service failed because the control process exited with error code.
+See "systemctl status nginx.service" and "journalctl -xeu nginx.service" for details.
