@@ -1,41 +1,12 @@
-<ScheduleEntry: fetch-vk-clips-every-24-hours carapp.tasks.VK_clips() <crontab: 0 0 * * * (m/h/dM/MY/d)>
-[2025-01-27 03:46:10,499: DEBUG/MainProcess] beat: Ticking with max interval->5.00 minutes
-[2025-01-27 03:46:10,500: DEBUG/MainProcess] beat: Waking up in 5.00 minutes.
-[2025-01-27 03:51:10,502: DEBUG/MainProcess] beat: Synchronizing schedule...
-[2025-01-27 03:51:10,536: DEBUG/MainProcess] beat: Waking up in 5.00 minutes.
-[2025-01-27 03:56:10,540: DEBUG/MainProcess] beat: Synchronizing schedule...
-[2025-01-27 03:56:10,573: DEBUG/MainProcess] beat: Waking up in 5.00 minutes.
-[2025-01-27 04:01:10,577: DEBUG/MainProcess] beat: Synchronizing schedule...
-[2025-01-27 04:01:10,593: DEBUG/MainProcess] beat: Waking up in 5.00 minutes.
+WARNING/MainProcess] /home/vboxuser/SuperWebProgramming/venv/lib/python3.12/site-packages/celery/worker/consumer/consumer.py:508: CPendingDeprecationWarning: The broker_connection_retry configuration setting will no longer determine
+whether broker connection retries are made during startup in Celery 6.0 and above.
+If you wish to retain the existing behavior for retrying connections on startup,
+you should set broker_connection_retry_on_startup to True.
+  warnings.warn(
 
-
-
-
-Internal Server Error: /
-Traceback (most recent call last):
-  File "/home/vboxuser/SuperWebProgramming/venv/lib/python3.12/site-packages/celery/backends/asynchronous.py", line 287, in _wait_for_pending
-    for _ in self.drain_events_until(
-  File "/home/vboxuser/SuperWebProgramming/venv/lib/python3.12/site-packages/celery/backends/asynchronous.py", line 52, in drain_events_until
-    raise socket.timeout()
-TimeoutError
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/home/vboxuser/SuperWebProgramming/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "/home/vboxuser/SuperWebProgramming/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/vboxuser/SuperWebProgramming/car/carapp/views.py", line 50, in index
-    clips_data = clips_data.get(timeout = 60)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/vboxuser/SuperWebProgramming/venv/lib/python3.12/site-packages/celery/result.py", line 251, in get
-    return self.backend.wait_for_pending(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/vboxuser/SuperWebProgramming/venv/lib/python3.12/site-packages/celery/backends/asynchronous.py", line 221, in wait_for_pending
-    for _ in self._wait_for_pending(result, **kwargs):
-  File "/home/vboxuser/SuperWebProgramming/venv/lib/python3.12/site-packages/celery/backends/asynchronous.py", line 293, in _wait_for_pending
-    raise TimeoutError('The operation timed out.')
-celery.exceptions.TimeoutError: The operation timed out.
+[2025-01-27 05:19:44,647: INFO/MainProcess] Connected to redis://localhost:6379/0
+[2025-01-27 05:19:44,648: WARNING/MainProcess] /home/vboxuser/SuperWebProgramming/venv/lib/python3.12/site-packages/celery/worker/consumer/consumer.py:508: CPendingDeprecationWarning: The broker_connection_retry configuration setting will no longer determine
+whether broker connection retries are made during startup in Celery 6.0 and above.
+If you wish to retain the existing behavior for retrying connections on startup,
+you should set broker_connection_retry_on_startup to True.
+  warnings.warn(
