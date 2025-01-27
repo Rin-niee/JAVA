@@ -20,3 +20,9 @@ server {
 
 Job for nginx.service failed because the control process exited with error code.
 See "systemctl status nginx.service" and "journalctl -xeu nginx.service" for details.
+
+
+Jan 27 08:17:32 Ubuntu (gunicorn)[6719]: gunicorn.service: Changing to the requested working directory>
+Jan 27 08:17:32 Ubuntu systemd[1]: gunicorn.service: Main process exited, code=exited, status=200/CHDIR
+Jan 27 08:17:32 Ubuntu systemd[1]: gunicorn.service: Failed with result 'exit-code'.
+~
