@@ -43,3 +43,18 @@ Jan 27 07:32:03 Ubuntu systemd[1]: Starting nginx.service - A high performance w
 Jan 27 07:32:03 Ubuntu nginx[1113]: 2025/01/27 07:32:03 [emerg] 1113#1113: open() "/etc/nginx/sites-enabled/sites>
 Jan 27 07:32:03 Ubuntu nginx[1113]: nginx: configuration file /etc/nginx/nginx.conf test failed
 Jan 27 07:32:03 Ubuntu systemd[1]: nginx.service: Control process exited, code=exited, status=1/FAILURE
+
+
+
+[Unit]
+Description=gunicorn daemon for car
+After=network.target
+
+[Service]
+User=your_user
+Group=your_group
+WorkingDirectory=/path/to/your/project
+ExecStart=/path/to/your/venv/bin/gunicorn --workers 3 --bind unix:/path/to/your/project/car.sock car.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
