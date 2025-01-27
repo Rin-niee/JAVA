@@ -36,3 +36,10 @@ Jan 27 08:17:32 Ubuntu (gunicorn)[6719]: gunicorn.service: Changing to the reque
 Jan 27 08:17:32 Ubuntu systemd[1]: gunicorn.service: Main process exited, code=exited, status=200/CHDIR
 Jan 27 08:17:32 Ubuntu systemd[1]: gunicorn.service: Failed with result 'exit-code'.
 ~
+
+
+
+Jan 27 07:32:03 Ubuntu systemd[1]: Starting nginx.service - A high performance web server and a reverse proxy ser>
+Jan 27 07:32:03 Ubuntu nginx[1113]: 2025/01/27 07:32:03 [emerg] 1113#1113: open() "/etc/nginx/sites-enabled/sites>
+Jan 27 07:32:03 Ubuntu nginx[1113]: nginx: configuration file /etc/nginx/nginx.conf test failed
+Jan 27 07:32:03 Ubuntu systemd[1]: nginx.service: Control process exited, code=exited, status=1/FAILURE
