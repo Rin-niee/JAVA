@@ -30,9 +30,57 @@ ExecStart=/path/to/your/venv/bin/gunicorn --workers 3 --bind unix:/path/to/your/
 [Install]
 WantedBy=multi-user.target
 
-11010:C 29 Jan 2025 07:55:46.302 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
-11010:C 29 Jan 2025 07:55:46.302 # Redis version=7.0.15, bits=64, commit=00000000, modified=0, pid=11010, just started
-11010:C 29 Jan 2025 07:55:46.302 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
-11010:M 29 Jan 2025 07:55:46.303 * monotonic clock: POSIX clock_gettime
-11010:M 29 Jan 2025 07:55:46.304 # Warning: Could not create server TCP listening socket *:6379: bind: Address already in use
-11010:M 29 Jan 2025 07:55:46.305 # Failed listening on port 6379 (TCP), aborting.
+
+def fetch_currency_data():
+    currency_data = cache.get('currency_data')
+    if currency_data:
+        return currency_data
+
+    # Настройка Selenium
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')  # Запуск в фоновом режиме (без GUI)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+
+    try:
+        driver.get("https://bbr.ru/")  
+
+        # Принять куки
+        accept_cookies_button = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//button[text()='Принять']"))
+        )
+        accept_cookies_button.click()
+
+        # Достать цену продажи евро
+        eur_sell_price = WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, "//span[text()='продажа']/following-sibling::div/span"))
+        ).text
+        eur_sell_price = eur_sell_price.replace(',', '.')
+
+        #достать азиатскую валюту
+        # Развернуть таблицу
+        expand_table_button = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//button[contains(@class, 'css-15bdcy0') and contains(., 'Все валюты')]"))
+        )
+        expand_table_button.click()
+
+        # Подождать, чтобы таблица успела загрузиться
+        time.sleep(2)  
+
+        # Собрать данные из таблицы
+        currency_data = {}
+        rows = WebDriverWait(driver, 10).until(
+            EC.presence_of_all_elements_located((By.XPATH, "//table[@class='css-1uixtsi e23c5745']//tbody/tr"))
+        )
+        for row in rows:
+            cells = row.find_elements(By.TAG_NAME, "td")
+            if len(cells) >= 3:
+                currency_code = cells[1].text  # Сокращенное название валюты
+                sell_price = cells[4].text      # Цена продажи
+                cleaned_price = sell_price.replace(',', '.')
+                currency_data[currency_code] = cleaned_price
+            
+    finally:
+        # Закрыть браузер
+        driver.quit()
+    cache.set('currency_data', currency_data, timeout= 60*60*24)
+    return currency_data
