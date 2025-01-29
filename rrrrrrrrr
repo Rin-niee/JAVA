@@ -32,9 +32,6 @@ WantedBy=multi-user.target
 
 
 def fetch_currency_data():
-    currency_data = cache.get('currency_data')
-    if currency_data:
-        return currency_data
 
     # Настройка Selenium
     options = webdriver.ChromeOptions()
@@ -44,43 +41,37 @@ def fetch_currency_data():
     try:
         driver.get("https://bbr.ru/")  
 
-        # Принять куки
         accept_cookies_button = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, "//button[text()='Принять']"))
         )
         accept_cookies_button.click()
 
-        # Достать цену продажи евро
         eur_sell_price = WebDriverWait(driver, 10).until(
             EC.visibility_of_element_located((By.XPATH, "//span[text()='продажа']/following-sibling::div/span"))
         ).text
         eur_sell_price = eur_sell_price.replace(',', '.')
 
-        #достать азиатскую валюту
-        # Развернуть таблицу
         expand_table_button = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, "//button[contains(@class, 'css-15bdcy0') and contains(., 'Все валюты')]"))
         )
         expand_table_button.click()
 
-        # Подождать, чтобы таблица успела загрузиться
         time.sleep(2)  
 
-        # Собрать данные из таблицы
-        currency_data = {}
+        currency_data = {"EUR": eur_sell_price}
+
         rows = WebDriverWait(driver, 10).until(
             EC.presence_of_all_elements_located((By.XPATH, "//table[@class='css-1uixtsi e23c5745']//tbody/tr"))
         )
         for row in rows:
             cells = row.find_elements(By.TAG_NAME, "td")
             if len(cells) >= 3:
-                currency_code = cells[1].text  # Сокращенное название валюты
-                sell_price = cells[4].text      # Цена продажи
+                currency_code = cells[1].text
+                sell_price = cells[4].text
                 cleaned_price = sell_price.replace(',', '.')
                 currency_data[currency_code] = cleaned_price
             
     finally:
-        # Закрыть браузер
         driver.quit()
-    cache.set('currency_data', currency_data, timeout= 60*60*24)
+
     return currency_data
