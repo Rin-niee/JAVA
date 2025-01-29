@@ -17,35 +17,6 @@ server {
     listen 80;
 }
 
-
-Ubuntu systemd[1]: Started gunicorn.service - gunicorn daemon for car.
-Jan 27 08:17:32 Ubuntu (gunicorn)[6719]: gunicorn.service: Changing to the requested working directory>
-Jan 27 08:17:32 Ubuntu systemd[1]: gunicorn.service: Main process exited, code=exited, status=200/CHDIR
-Jan 27 08:17:32 Ubuntu systemd[1]: gunicorn.service: Failed with result 'exit-code'.
-Jan 27 08:27:45 Ubuntu systemd[1]: Started gunicorn.service - gunicorn daemon for car.
-Jan 27 08:27:45 Ubuntu (gunicorn)[7577]: gunicorn.service: Changing to the requested working directory>
-Jan 27 08:27:45 Ubuntu systemd[1]: gunicorn.service: Main process exited, code=exited, status=200/CHDIR
-Jan 27 08:27:45 Ubuntu systemd[1]: gunicorn.service: Failed with result 'exit-code'.
-Jan 27 08:35:55 Ubuntu systemd[1]: Started gunicorn.service - gunicorn daemon for car.
-Jan 27 08:35:55 Ubuntu systemd[1]: gunicorn.service: Main process exited, code=exited, status=200/CHDIR
-Jan 27 08:35:55 Ubuntu systemd[1]: gunicorn.service: Failed with result 'exit-code'.
-
-
-
-Jan 27 08:17:32 Ubuntu (gunicorn)[6719]: gunicorn.service: Changing to the requested working directory>
-Jan 27 08:17:32 Ubuntu systemd[1]: gunicorn.service: Main process exited, code=exited, status=200/CHDIR
-Jan 27 08:17:32 Ubuntu systemd[1]: gunicorn.service: Failed with result 'exit-code'.
-~
-
-
-
-Jan 27 07:32:03 Ubuntu systemd[1]: Starting nginx.service - A high performance web server and a reverse proxy ser>
-Jan 27 07:32:03 Ubuntu nginx[1113]: 2025/01/27 07:32:03 [emerg] 1113#1113: open() "/etc/nginx/sites-enabled/sites>
-Jan 27 07:32:03 Ubuntu nginx[1113]: nginx: configuration file /etc/nginx/nginx.conf test failed
-Jan 27 07:32:03 Ubuntu systemd[1]: nginx.service: Control process exited, code=exited, status=1/FAILURE
-
-
-
 [Unit]
 Description=gunicorn daemon for car
 After=network.target
@@ -59,66 +30,9 @@ ExecStart=/path/to/your/venv/bin/gunicorn --workers 3 --bind unix:/path/to/your/
 [Install]
 WantedBy=multi-user.target
 
-
-
-(venv) vboxuser@Ubuntu:~/SuperWebProgramming/car$ journalctl -u gunicorn
-service - gunicorn daemon for car.
-rvice: Changing to the requested working directory failed: Permission denied
- Main process exited, code=exited, status=200/CHDIR
- Failed with result 'exit-code'.
-service - gunicorn daemon for car.
-rvice: Changing to the requested working directory failed: Permission denied
- Main process exited, code=exited, status=200/CHDIR
- Failed with result 'exit-code'.
-service - gunicorn daemon for car.
- Main process exited, code=exited, status=200/CHDIR
- Failed with result 'exit-code'.
-
-
-
-
-Type 'manage.py help <subcommand>' for help on a specific subcommand.
-
-Available subcommands:
-
-[auth]
-    changepassword
-    createsuperuser
-
-[contenttypes]
-    remove_stale_contenttypes
-
-[django]
-    check
-    compilemessages
-    createcachetable
-    dbshell
-    diffsettings
-    dumpdata
-    flush
-    inspectdb
-    loaddata
-    makemessages
-    makemigrations
-    migrate
-    optimizemigration
-    sendtestemail
-    shell
-    showmigrations
-    sqlflush
-    sqlmigrate
-    sqlsequencereset
-    squashmigrations
-    startapp
-    startproject
-    test
-    testserver
-
-[sessions]
-    clearsessions
-
-[staticfiles]
-    collectstatic
-    findstatic
-    runserver
-
+11010:C 29 Jan 2025 07:55:46.302 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+11010:C 29 Jan 2025 07:55:46.302 # Redis version=7.0.15, bits=64, commit=00000000, modified=0, pid=11010, just started
+11010:C 29 Jan 2025 07:55:46.302 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
+11010:M 29 Jan 2025 07:55:46.303 * monotonic clock: POSIX clock_gettime
+11010:M 29 Jan 2025 07:55:46.304 # Warning: Could not create server TCP listening socket *:6379: bind: Address already in use
+11010:M 29 Jan 2025 07:55:46.305 # Failed listening on port 6379 (TCP), aborting.
