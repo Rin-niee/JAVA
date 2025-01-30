@@ -36,29 +36,30 @@ WantedBy=multi-user.target
 document.addEventListener("DOMContentLoaded", () => {
     // Функция для движения слайдов
     function move(panel, direction) {
-        let offset = panel.offset; // Начальный сдвиг для этой панели
-        let translateWidth = panel.querySelector('.popular_auto_item').offsetWidth + 16;
-        let maxOffset = panel.swipper.scrollWidth - panel.swipper.offsetWidth; // Максимальный сдвиг (последний элемент)
+        let objects = panel.getElementsByClassName('popular_auto_item');
+        let translateWidth = objects[0].offsetWidth + 16; // Ширина одного элемента
+        let maxOffset = objects.length * translateWidth - panel.swipper.offsetWidth; // Максимальный сдвиг
 
         // Ограничиваем движение слайдов
-        offset += direction * (translateWidth + 30);
-        if (offset > 0) {
-            offset = 0; // Ограничение для движения влево
+        panel.offset += direction * (translateWidth + 30);
+        if (panel.offset > 0) {
+            panel.offset = 0; // Ограничение для движения влево
         }
-        if (offset < -maxOffset) {
-            offset = -maxOffset; // Ограничение для движения вправо
+        if (panel.offset < -maxOffset) {
+            panel.offset = -maxOffset; // Ограничение для движения вправо
         }
 
-        panel.offset = offset; // Обновляем сдвиг
-        panel.swipper.style.transform = `translateX(${offset}px)`; // Применяем трансформацию
+        // Перемещаем все элементы в панели
+        Array.from(objects).forEach(item => {
+            item.style.transform = `translateX(${panel.offset}px)`; // Применяем трансформацию для каждого элемента
+        });
     }
 
     // Обработчик событий для всех панелей
     let panels = document.querySelectorAll('.popular_auto');
     panels.forEach(panel => {
         let swipper = panel.querySelector('.swipper');
-        let offset = 20; // Начальный сдвиг
-        panel.offset = offset; // Присваиваем сдвиг панеле
+        panel.offset = 20; // Начальный сдвиг
         panel.swipper = swipper; // Присваиваем элемент слайдера
 
         // Обработчик кликов на панели
