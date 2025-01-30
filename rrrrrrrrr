@@ -257,19 +257,6 @@ document.addEventListener("DOMContentLoaded", () => {
         toggleNavButtons(panel, offset, maxOffset);
     }
 
-    function toggleNavButtons(panel, offset, maxOffset) {
-        let navRight = panel.querySelector('.nav_right');
-        let navLeft = panel.querySelector('.nav_left');
-
-        // Управление кнопками
-        navRight.disabled = offset === 0;
-        navLeft.disabled = offset === -maxOffset;
-
-        // Стили для отключенных кнопок
-        navRight.classList.toggle('disabled', offset === 0);
-        navLeft.classList.toggle('disabled', offset === -maxOffset);
-    }
-
     let panels = document.querySelectorAll('.popular_auto');
     panels.forEach(panel => {
         let swipper = panel.querySelector('.swipper');
@@ -317,4 +304,3 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-
