@@ -169,38 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (offset < -maxOffset) {
             offset = -maxOffset;
         }
-
-        panel.offset = offset; // Обновляем сдвиг
-        panel.swipper.style.transform = `translateX(${offset}px)`; // Применяем трансформацию
-
-        // Управление состоянием кнопок
-        toggleNavButtons(panel, offset, maxOffset);
     }
-
-    // Функция для включения/выключения кнопок навигации
-    function toggleNavButtons(panel, offset, maxOffset) {
-        let navRight = panel.querySelector('.nav_right');
-        let navLeft = panel.querySelector('.nav_left');
-
-        // Если сдвиг больше нуля, кнопка вправо активна
-        if (offset < 0) {
-            navRight.disabled = false;
-            navRight.classList.remove('disabled');
-        } else {
-            navRight.disabled = true;
-            navRight.classList.add('disabled');
-        }
-
-        // Если сдвиг меньше максимального сдвига, кнопка влево активна
-        if (offset > -maxOffset) {
-            navLeft.disabled = false;
-            navLeft.classList.remove('disabled');
-        } else {
-            navLeft.disabled = true;
-            navLeft.classList.add('disabled');
-        }
-    }
-
     // Обработчик событий для всех панелей
     let panels = document.querySelectorAll('.popular_auto');
     panels.forEach(panel => {
