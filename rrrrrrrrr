@@ -184,20 +184,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Отключение кнопки "вправо", если достигнут последний элемент
         if (offset <= -maxOffset) {
-            navRight.disabled = true;
-            navRight.classList.add('disabled');
+            navRight.disabled = true;  // Блокируем кнопку вправо
+            navRight.classList.add('disabled'); // Визуально делаем неактивной
         } else {
-            navRight.disabled = false;
-            navRight.classList.remove('disabled');
+            navRight.disabled = false;  // Включаем кнопку вправо
+            navRight.classList.remove('disabled'); // Визуально делаем активной
         }
 
         // Отключение кнопки "влево", если достигнут первый элемент
         if (offset >= 0) {
-            navLeft.disabled = true;
-            navLeft.classList.add('disabled');
+            navLeft.disabled = true; // Блокируем кнопку влево
+            navLeft.classList.add('disabled'); // Визуально делаем неактивной
         } else {
-            navLeft.disabled = false;
-            navLeft.classList.remove('disabled');
+            navLeft.disabled = false; // Включаем кнопку влево
+            navLeft.classList.remove('disabled'); // Визуально делаем активной
         }
     }
 
