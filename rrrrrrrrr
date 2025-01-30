@@ -29,152 +29,31 @@ ExecStart=/path/to/your/venv/bin/gunicorn --workers 3 --bind unix:/path/to/your/
 
 [Install]
 WantedBy=multi-user.target
-
-
-def fetch_currency_data():
-
-    # Настройка Selenium
-    options = webdriver.ChromeOptions()
-    options.add_argument('--headless')  # Запуск в фоновом режиме (без GUI)
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-
-    try:
-        driver.get("https://bbr.ru/")  
-
-        accept_cookies_button = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[text()='Принять']"))
-        )
-        accept_cookies_button.click()
-
-        eur_sell_price = WebDriverWait(driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, "//span[text()='продажа']/following-sibling::div/span"))
-        ).text
-        eur_sell_price = eur_sell_price.replace(',', '.')
-
-        expand_table_button = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[contains(@class, 'css-15bdcy0') and contains(., 'Все валюты')]"))
-        )
-        expand_table_button.click()
-
-        time.sleep(2)  
-
-        currency_data = {"EUR": eur_sell_price}
-
-        rows = WebDriverWait(driver, 10).until(
-            EC.presence_of_all_elements_located((By.XPATH, "//table[@class='css-1uixtsi e23c5745']//tbody/tr"))
-        )
-        for row in rows:
-            cells = row.find_elements(By.TAG_NAME, "td")
-            if len(cells) >= 3:
-                currency_code = cells[1].text
-                sell_price = cells[4].text
-                cleaned_price = sell_price.replace(',', '.')
-                currency_data[currency_code] = cleaned_price
-            
-    finally:
-        driver.quit()
-
-    return currency_data
-
-
-
-
-
-
-
-
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
-import time
-import re
-
-# Настройки для драйвера
-# Настройка Selenium
-options = webdriver.ChromeOptions()
-options.add_argument('--headless')  # Запуск в фоновом режиме (без GUI)
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-# Открываем страницу с отзывами
-
-
-url = "https://yandex.ru/maps/org/tomiko_trade/126455019912/reviews/?ll=131.922567%2C43.127157&z=16"
-driver.get(url)
-# Даем время на загрузку страницы
-time.sleep(1)  # Увеличьте время, если страница загружается медленно
-
-# Список для хранения отзывов
-reviews = []
-
-# Поиск всех элементов с отзывами
-review_elements = driver.find_elements(By.CSS_SELECTOR, ".business-reviews-card-view__review")
-
-for review in review_elements:
-    # Извлечение имени пользователя
-    author_name = review.find_element(By.CSS_SELECTOR, ".business-review-view__author-name span").text
-
-    # Извлечение иконки пользователя
-    avatar_element = review.find_element(By.CSS_SELECTOR,
-                                         '.business-review-view__author-image .user-icon-view__icon')  # Извлечение URL из стиля
-    style = avatar_element.get_attribute('style')
-    match = re.search(r'url\("?(.*?)"?\)', style)
-
-    if match:
-        avatar_url = match.group(1)
-    else:
-        avatar_url = None  # Если URL не найден
-
-    # Извлечение количества звезд
-    stars = review.find_elements(By.CSS_SELECTOR, ".business-rating-badge-view__star._full")
-    star_count = len(stars)
-    # Извлечение даты отзыва
-    review_date = review.find_element(By.CSS_SELECTOR, ".business-review-view__date span").text
-
-    # Добавление отзыва в список
-    reviews.append({
-        "name": author_name,
-        "icon_href": avatar_url,
-        "stars": star_count,
-        "date": review_date
-    })
-
-# Выводим собранные отзывы
-for review in reviews:
-    print(review)
-
-# Закрытие драйвера
-driver.quit()
-
-
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
     // Функция для движения слайдов
     function move(panel, direction) {
         let offset = panel.offset; // Начальный сдвиг для этой панели
         let translateWidth = panel.querySelector('.popular_auto_item').offsetWidth + 16;
-        offset += direction * (translateWidth + 30);
-
-        // Ограничиваем движение слайдов в пределах контейнера
         let maxOffset = panel.swipper.scrollWidth - panel.swipper.offsetWidth; // Максимальный сдвиг (последний элемент)
-        
-        // Если сдвиг больше нуля, значит, мы не можем двигаться влево
+
+        // Ограничиваем движение слайдов
+        offset += direction * (translateWidth + 30);
         if (offset > 0) {
-            offset = 0;
+            offset = 0; // Ограничение для движения влево
+        }
+        if (offset < -maxOffset) {
+            offset = -maxOffset; // Ограничение для движения вправо
         }
 
-        // Если сдвиг меньше максимального сдвига, значит, мы не можем двигаться вправо
-        if (offset < -maxOffset) {
-            offset = -maxOffset;
-        }
+        panel.offset = offset; // Обновляем сдвиг
+        panel.swipper.style.transform = `translateX(${offset}px)`; // Применяем трансформацию
     }
+
     // Обработчик событий для всех панелей
     let panels = document.querySelectorAll('.popular_auto');
     panels.forEach(panel => {
         let swipper = panel.querySelector('.swipper');
-        let offset = 0; // Начальный сдвиг
+        let offset = 20; // Начальный сдвиг
         panel.offset = offset; // Присваиваем сдвиг панеле
         panel.swipper = swipper; // Присваиваем элемент слайдера
 
@@ -186,14 +65,16 @@ document.addEventListener("DOMContentLoaded", () => {
             let element_next = null;
 
             // Проверка на навигацию вправо
-            if (event.target.classList.contains('nav_right') && !event.target.disabled) {
+            if (event.target.classList.contains('nav_right')) {
                 for (let i = 0; i < objects.length; i++) {
                     let element = objects[i];
                     if (element.classList.contains('item_big') && element.parentNode.id == parent.id) {
                         index_g = i + 1;
-                        element_next = objects[index_g];
-                        move(panel, -1); // Сдвигаем вправо
-                        element.classList.remove('item_big');
+                        if (index_g < objects.length) { // Проверка на наличие следующего элемента
+                            element_next = objects[index_g];
+                            move(panel, -1);
+                            element.classList.remove('item_big');
+                        }
                     }
                 }
                 if (element_next) {
@@ -202,103 +83,20 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // Проверка на навигацию влево
-            if (event.target.classList.contains('nav_left') && !event.target.disabled) {
+            if (event.target.classList.contains('nav_left')) {
                 for (let i = 0; i < objects.length; i++) {
                     let element = objects[i];
                     if (element.classList.contains('item_big') && element.parentNode.id == parent.id) {
                         index_g = i - 1;
-                        element_next = objects[index_g];
-                        move(panel, 1); // Сдвигаем влево
-                        element.classList.remove('item_big');
+                        if (index_g >= 0) { // Проверка на наличие предыдущего элемента
+                            element_next = objects[index_g];
+                            move(panel, 1);
+                            element.classList.remove('item_big');
+                        }
                     }
                 }
                 if (element_next) {
                     element_next.classList.add('item_big');
-                }
-            }
-        });
-    });
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-document.addEventListener("DOMContentLoaded", () => {
-    function move(panel, direction) {
-        let offset = panel.offset; // Начальный сдвиг для этой панели
-        let translateWidth = panel.querySelector('.popular_auto_item').offsetWidth + 16;
-        offset += direction * (translateWidth + 30);
-
-        // Ограничиваем движение слайдов в пределах контейнера
-        let maxOffset = panel.swipper.scrollWidth - panel.swipper.offsetWidth;
-
-        if (offset > 0) {
-            offset = 0;
-        }
-        if (offset < -maxOffset) {
-            offset = -maxOffset;
-        }
-
-        panel.offset = offset;
-        panel.swipper.style.transform = `translateX(${offset}px)`;
-
-        toggleNavButtons(panel, offset, maxOffset);
-    }
-
-    let panels = document.querySelectorAll('.popular_auto');
-    panels.forEach(panel => {
-        let swipper = panel.querySelector('.swipper');
-        panel.offset = 0;
-        panel.swipper = swipper;
-
-        panel.addEventListener('click', event => {
-            let parent = event.target.parentNode;
-            let objects = panel.getElementsByClassName('popular_auto_item');
-            let element_next = null;
-
-            // Навигация вправо
-            if (event.target.classList.contains('nav_right') && !event.target.disabled) {
-                for (let i = 0; i < objects.length; i++) {
-                    let element = objects[i];
-                    if (element.classList.contains('item_big') && element.parentNode.id == parent.id) {
-                        let index_g = i + 1;
-                        // Убедимся, что следующий элемент существует
-                        element_next = objects[index_g] ? objects[index_g] : null;
-                        if (element_next) {
-                            move(panel, -1); // Сдвигаем вправо
-                            element.classList.remove('item_big');
-                            element_next.classList.add('item_big');
-                        }
-                    }
-                }
-            }
-
-            // Навигация влево
-            if (event.target.classList.contains('nav_left') && !event.target.disabled) {
-                for (let i = 0; i < objects.length; i++) {
-                    let element = objects[i];
-                    if (element.classList.contains('item_big') && element.parentNode.id == parent.id) {
-                        let index_g = i - 1;
-                        // Убедимся, что следующий элемент существует
-                        element_next = objects[index_g] ? objects[index_g] : null;
-                        if (element_next) {
-                            move(panel, 1); // Сдвигаем влево
-                            element.classList.remove('item_big');
-                            element_next.classList.add('item_big');
-                        }
-                    }
                 }
             }
         });
