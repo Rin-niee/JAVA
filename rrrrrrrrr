@@ -156,14 +156,18 @@ document.addEventListener("DOMContentLoaded", () => {
         let offset = panel.offset; // Начальный сдвиг для этой панели
         let translateWidth = panel.querySelector('.popular_auto_item').offsetWidth + 16;
         offset += direction * (translateWidth + 30);
-        
+
         // Ограничиваем движение слайдов в пределах контейнера
         let maxOffset = panel.swipper.scrollWidth - panel.swipper.offsetWidth; // Максимальный сдвиг (последний элемент)
+        
+        // Если сдвиг больше нуля, значит, мы не можем двигаться влево
         if (offset > 0) {
-            offset = 0; // Ограничение для движения влево
+            offset = 0;
         }
+
+        // Если сдвиг меньше максимального сдвига, значит, мы не можем двигаться вправо
         if (offset < -maxOffset) {
-            offset = -maxOffset; // Ограничение для движения вправо
+            offset = -maxOffset;
         }
 
         panel.offset = offset; // Обновляем сдвиг
@@ -201,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let panels = document.querySelectorAll('.popular_auto');
     panels.forEach(panel => {
         let swipper = panel.querySelector('.swipper');
-        let offset = 20; // Начальный сдвиг
+        let offset = 0; // Начальный сдвиг
         panel.offset = offset; // Присваиваем сдвиг панеле
         panel.swipper = swipper; // Присваиваем элемент слайдера
 
@@ -219,7 +223,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (element.classList.contains('item_big') && element.parentNode.id == parent.id) {
                         index_g = i + 1;
                         element_next = objects[index_g];
-                        move(panel, -1);
+                        move(panel, -1); // Сдвигаем вправо
                         element.classList.remove('item_big');
                     }
                 }
@@ -235,7 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (element.classList.contains('item_big') && element.parentNode.id == parent.id) {
                         index_g = i - 1;
                         element_next = objects[index_g];
-                        move(panel, 1);
+                        move(panel, 1); // Сдвигаем влево
                         element.classList.remove('item_big');
                     }
                 }
