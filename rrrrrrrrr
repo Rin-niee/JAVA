@@ -156,10 +156,18 @@ document.addEventListener("DOMContentLoaded", () => {
         let offset = panel.offset; // Начальный сдвиг для этой панели
         let translateWidth = panel.querySelector('.popular_auto_item').offsetWidth + 16;
         offset += direction * (translateWidth + 30);
-        panel.offset = offset; // Обновляем сдвиг
+        
+        // Ограничиваем движение слайдов в пределах контейнера
+        let maxOffset = panel.swipper.scrollWidth - panel.swipper.offsetWidth; // Максимальный сдвиг (последний элемент)
+        if (offset > 0) {
+            offset = 0; // Ограничение для движения влево
+        }
+        if (offset < -maxOffset) {
+            offset = -maxOffset; // Ограничение для движения вправо
+        }
 
-        // Применяем трансформацию
-        panel.swipper.style.transform = `translateX(${offset}px)`;
+        panel.offset = offset; // Обновляем сдвиг
+        panel.swipper.style.transform = `translateX(${offset}px)`; // Применяем трансформацию
     }
 
     // Обработчик событий для всех панелей
