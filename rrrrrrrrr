@@ -36,24 +36,27 @@ WantedBy=multi-user.target
 document.addEventListener("DOMContentLoaded", () => {
     // Функция для движения слайдов
     function move(panel, direction) {
-        let objects = panel.getElementsByClassName('popular_auto_item');
+        let objects = Array.from(panel.getElementsByClassName('popular_auto_item'));
         let translateWidth = objects[0].offsetWidth + 16; // Ширина одного элемента
-        let maxOffset = objects.length * translateWidth - panel.swipper.offsetWidth; // Максимальный сдвиг
 
-        // Ограничиваем движение слайдов
-        panel.offset += direction * (translateWidth + 30);
-        if (panel.offset > 0) {
-            panel.offset = 0; // Ограничение для движения влево
-        }
-        if (panel.offset < -maxOffset) {
-            panel.offset = -maxOffset; // Ограничение для движения вправо
+        // Находим индекс элемента с классом item_big
+        let bigIndex = objects.findIndex(item => item.classList.contains('item_big'));
+        
+        // Проверяем, куда двигать элемент с item_big
+        if (direction === 1 && bigIndex > 0) {
+            // Двигаем влево: если bigIndex не первый, то передвигаем его
+            objects[bigIndex].classList.remove('item_big');
+            objects[bigIndex - 1].classList.add('item_big');
+        } else if (direction === -1 && bigIndex < objects.length - 1) {
+            // Двигаем вправо: если bigIndex не последний, то передвигаем его
+            objects[bigIndex].classList.remove('item_big');
+            objects[bigIndex + 1].classList.add('item_big');
         }
 
-        // Перемещаем все элементы в панели, кроме элемента с классом item_big
-        Array.from(objects).forEach(item => {
-            if (!item.classList.contains('item_big')) {
-                item.style.transform = `translateX(${panel.offset}px)`; // Применяем трансформацию для каждого элемента
-            }
+        // Перемещаем все элементы, чтобы создать эффект движения
+        let offset = -bigIndex * (translateWidth + 30); // Сдвиг в зависимости от позиции item_big
+        objects.forEach(item => {
+            item.style.transform = `translateX(${offset}px)`; // Применяем трансформацию для каждого элемента
         });
     }
 
@@ -61,7 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let panels = document.querySelectorAll('.popular_auto');
     panels.forEach(panel => {
         let swipper = panel.querySelector('.swipper');
-        panel.offset = 20; // Начальный сдвиг
         panel.swipper = swipper; // Присваиваем элемент слайдера
 
         // Обработчик кликов на панели
@@ -73,40 +75,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Проверка на навигацию вправо
             if (event.target.classList.contains('nav_right')) {
-                for (let i = 0; i < objects.length; i++) {
-                    let element = objects[i];
-                    if (element.classList.contains('item_big') && element.parentNode.id == parent.id) {
-                        index_g = i + 1;
-                        if (index_g < objects.length) { // Проверка на наличие следующего элемента
-                            element_next = objects[index_g];
-                            move(panel, -1);
-                            element.classList.remove('item_big');
-                        }
-                    }
-                }
-                if (element_next) {
-                    element_next.classList.add('item_big');
-                }
+                move(panel, -1); // Двигаем вправо
             }
 
             // Проверка на навигацию влево
             if (event.target.classList.contains('nav_left')) {
-                for (let i = 0; i < objects.length; i++) {
-                    let element = objects[i];
-                    if (element.classList.contains('item_big') && element.parentNode.id == parent.id) {
-                        index_g = i - 1;
-                        if (index_g >= 0) { 
-                            element_next = objects[index_g];
-                            move(panel, 1);
-                            element.classList.remove('item_big');
-                        }
-                    }
-                }
-                if (element_next) {
-                    element_next.classList.add('item_big');
-                }
+                move(panel, 1); // Двигаем влево
             }
         });
     });
 });
-
