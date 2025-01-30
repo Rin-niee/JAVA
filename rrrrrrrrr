@@ -219,3 +219,102 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    function move(panel, direction) {
+        let offset = panel.offset; // Начальный сдвиг для этой панели
+        let translateWidth = panel.querySelector('.popular_auto_item').offsetWidth + 16;
+        offset += direction * (translateWidth + 30);
+
+        // Ограничиваем движение слайдов в пределах контейнера
+        let maxOffset = panel.swipper.scrollWidth - panel.swipper.offsetWidth;
+
+        if (offset > 0) {
+            offset = 0;
+        }
+        if (offset < -maxOffset) {
+            offset = -maxOffset;
+        }
+
+        panel.offset = offset;
+        panel.swipper.style.transform = `translateX(${offset}px)`;
+
+        toggleNavButtons(panel, offset, maxOffset);
+    }
+
+    function toggleNavButtons(panel, offset, maxOffset) {
+        let navRight = panel.querySelector('.nav_right');
+        let navLeft = panel.querySelector('.nav_left');
+
+        // Управление кнопками
+        navRight.disabled = offset === 0;
+        navLeft.disabled = offset === -maxOffset;
+
+        // Стили для отключенных кнопок
+        navRight.classList.toggle('disabled', offset === 0);
+        navLeft.classList.toggle('disabled', offset === -maxOffset);
+    }
+
+    let panels = document.querySelectorAll('.popular_auto');
+    panels.forEach(panel => {
+        let swipper = panel.querySelector('.swipper');
+        panel.offset = 0;
+        panel.swipper = swipper;
+
+        panel.addEventListener('click', event => {
+            let parent = event.target.parentNode;
+            let objects = panel.getElementsByClassName('popular_auto_item');
+            let element_next = null;
+
+            // Навигация вправо
+            if (event.target.classList.contains('nav_right') && !event.target.disabled) {
+                for (let i = 0; i < objects.length; i++) {
+                    let element = objects[i];
+                    if (element.classList.contains('item_big') && element.parentNode.id == parent.id) {
+                        let index_g = i + 1;
+                        // Убедимся, что следующий элемент существует
+                        element_next = objects[index_g] ? objects[index_g] : null;
+                        if (element_next) {
+                            move(panel, -1); // Сдвигаем вправо
+                            element.classList.remove('item_big');
+                            element_next.classList.add('item_big');
+                        }
+                    }
+                }
+            }
+
+            // Навигация влево
+            if (event.target.classList.contains('nav_left') && !event.target.disabled) {
+                for (let i = 0; i < objects.length; i++) {
+                    let element = objects[i];
+                    if (element.classList.contains('item_big') && element.parentNode.id == parent.id) {
+                        let index_g = i - 1;
+                        // Убедимся, что следующий элемент существует
+                        element_next = objects[index_g] ? objects[index_g] : null;
+                        if (element_next) {
+                            move(panel, 1); // Сдвигаем влево
+                            element.classList.remove('item_big');
+                            element_next.classList.add('item_big');
+                        }
+                    }
+                }
+            }
+        });
+    });
+});
+
