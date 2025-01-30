@@ -182,22 +182,22 @@ document.addEventListener("DOMContentLoaded", () => {
         let navRight = panel.querySelector('.nav_right');
         let navLeft = panel.querySelector('.nav_left');
 
-        // Отключение кнопки "вправо", если достигнут последний элемент
-        if (offset <= -maxOffset) {
-            navRight.disabled = true;  // Блокируем кнопку вправо
-            navRight.classList.add('disabled'); // Визуально делаем неактивной
+        // Если сдвиг больше нуля, кнопка вправо активна
+        if (offset < 0) {
+            navRight.disabled = false;
+            navRight.classList.remove('disabled');
         } else {
-            navRight.disabled = false;  // Включаем кнопку вправо
-            navRight.classList.remove('disabled'); // Визуально делаем активной
+            navRight.disabled = true;
+            navRight.classList.add('disabled');
         }
 
-        // Отключение кнопки "влево", если достигнут первый элемент
-        if (offset >= 0) {
-            navLeft.disabled = true; // Блокируем кнопку влево
-            navLeft.classList.add('disabled'); // Визуально делаем неактивной
+        // Если сдвиг меньше максимального сдвига, кнопка влево активна
+        if (offset > -maxOffset) {
+            navLeft.disabled = false;
+            navLeft.classList.remove('disabled');
         } else {
-            navLeft.disabled = false; // Включаем кнопку влево
-            navLeft.classList.remove('disabled'); // Визуально делаем активной
+            navLeft.disabled = true;
+            navLeft.classList.add('disabled');
         }
     }
 
@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let element_next = null;
 
             // Проверка на навигацию вправо
-            if (event.target.classList.contains('nav_right')) {
+            if (event.target.classList.contains('nav_right') && !event.target.disabled) {
                 for (let i = 0; i < objects.length; i++) {
                     let element = objects[i];
                     if (element.classList.contains('item_big') && element.parentNode.id == parent.id) {
@@ -233,7 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // Проверка на навигацию влево
-            if (event.target.classList.contains('nav_left')) {
+            if (event.target.classList.contains('nav_left') && !event.target.disabled) {
                 for (let i = 0; i < objects.length; i++) {
                     let element = objects[i];
                     if (element.classList.contains('item_big') && element.parentNode.id == parent.id) {
