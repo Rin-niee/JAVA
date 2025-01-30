@@ -49,9 +49,11 @@ document.addEventListener("DOMContentLoaded", () => {
             panel.offset = -maxOffset; // Ограничение для движения вправо
         }
 
-        // Перемещаем все элементы в панели
+        // Перемещаем все элементы в панели, кроме элемента с классом item_big
         Array.from(objects).forEach(item => {
-            item.style.transform = `translateX(${panel.offset}px)`; // Применяем трансформацию для каждого элемента
+            if (!item.classList.contains('item_big')) {
+                item.style.transform = `translateX(${panel.offset}px)`; // Применяем трансформацию для каждого элемента
+            }
         });
     }
 
@@ -107,3 +109,4 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
